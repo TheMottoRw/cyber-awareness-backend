@@ -1,7 +1,7 @@
 import db from "../db"
 
 const save = (obj) => {
-    let query = `INSERT INTO modules SET level='${obj.level}',name='${obj.name}'`;
+    let query = `INSERT INTO modules SET icon='${obj.icon}',level='${obj.level}',name='${obj.name}'`;
     return new Promise((resolve, reject) => {
         db.query(query, (err, res) => {
             if (err) reject(err);
@@ -44,7 +44,7 @@ const update = (id,obj) => {
             console.log(errId)
             if (errId) reject(errId);
             if(resId.length>0){
-                let query = `UPDATE modules SET level='${obj.level}',name='${obj.name}' WHERE id='${id}'`;
+                let query = `UPDATE modules SET icon='${obj.icon}',level='${obj.level}',name='${obj.name}' WHERE id='${id}'`;
                 db.query(query, (err, res) => {
                     if(err) reject(res)
                     resolve({status:true,message:"Module updated successfully"});

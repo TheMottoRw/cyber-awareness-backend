@@ -15,7 +15,7 @@ contentRouter.get("/content/:id",async (req,res)=>{
     const response = await contents.load(req.params.id);
     res.send(response);
 })
-contentRouter.get("/content/module/:module",async (req,res)=>{
+    contentRouter.get("/content/module/:module",async (req,res)=>{
     const response = await contents.loadByModule(req.params.module);
     res.send(response);
 })
