@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "173d322d-9caf-49e2-a9f1-adcbd2d09eeb",
+		"name": "Learning platform",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Save user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Yves\",\n    \"email\":\"yves@yopmail.com\",\n    \"user_type\":\"Learner\",\n    \"password\":\"12345\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/user",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load user by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/user/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Yves Iradukunda\",\n    \"email\":\"yves.iradukunda@yopmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/user/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save level",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Beginner\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/level",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"level"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load levels",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/levels",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"levels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load level by Id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Beginner\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/level/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"level",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update level",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Naiive\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/level/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"level",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save module",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Animals\",\n    \"level\":1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/module",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"module"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load modules",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/modules",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"modules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load module by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/module/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"module",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load module by level",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/module/level/2",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"module",
+						"level",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update module",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Colours\",\n    \"level\":1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/module/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"module",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Contents",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"module\":1,\n    \"eng_word\":\"Greetings\",\n    \"kiny_word\":\"Indamukanyo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/content",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"content"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load Contents",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/contents",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"contents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load content by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"module\":1,\n    \"eng_word\":\"Greetings\",\n    \"kiny_word\":\"Gusuhuzanya\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/content/2",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"content",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Contents",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"module\":1,\n    \"eng_word\":\"Greetings\",\n    \"kiny_word\":\"Gusuhuzanya\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/content/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"content",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
