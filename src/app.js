@@ -4,6 +4,11 @@ import levelRouter from "./routes/levelsRoutes";
 import moduleRouter from "./routes/modulesRoutes";
 import contentRouter from "./routes/contentsRoute";
 import bodyParser from "body-parser";
+import utils from "./helper/utils";
+import fs from "fs";
+import modules from "./controllers/modules";
+import filesManagementMiddleware from "./middleware/filesManagementMiddleware";
+import multer from "multer";
 const app = express();
 
 app.use(json())
@@ -24,14 +29,15 @@ const PORT = process.env.PORT || 3000;
 app.get('/', async (req, res) => {
     res.json({ status: true, message: "Our node.js app works" })
 });
-app.get('/form', function(req, res){
-    res.send(
-        '<form action="/upload" method="post" enctype="multipart/form-data">'+
-        '<input type="text" name="category">'+
-        '<input type="file" name="icon">'+
-        '<input type="submit" value="Upload">'+
-        '</form>'
-    );
-});
+const csvUpload = multer({dest:'src/uploads/files'})
+moduleRouter.post("/csv",csvUpload.single ("file"),(req,res)=>{
+    const fileName = utils.generateRandomChars();
+    // const filePath = `src/uploads/files/${fileName}`;
+    // fs.writeFileSync(filePath,atob(req.body['file']),'binary')
+    // fs.writeFileSync(filePath,req.body['file'])
+    // filesManagementMiddleware.upload
+    res.send({status:true,file:req.file,body:req.body});
+})
+
 
 app.listen(PORT, () => console.log(`App listening at port ${PORT}`));
