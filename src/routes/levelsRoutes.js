@@ -1,9 +1,14 @@
 import express from "express";
 import levels from "../controllers/levels";
+import utils from "../helper/utils";
+import fs from "fs";
 const levelRouter = express.Router();
 
 levelRouter.post("/level",async (req,res)=>{
-    const response = await levels.save(req.body);
+    const fileName = utils.generateRandomChars();
+    const filePath = `src/uploads/${fileName}`;
+    fs.writeFileSync(filePath,atob(req.body['icon']),'binary')
+    const response = await levels.save({icon:fileName,name:req.body['name']});
     res.send(response);
 })
 

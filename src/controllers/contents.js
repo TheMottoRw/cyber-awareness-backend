@@ -1,7 +1,7 @@
 import db from "../db"
 
 const save = (obj) => {
-    let query = `INSERT INTO contents SET module='${obj.module}',eng_word='${obj.eng_word}',kiny_word='${obj.kiny_word}'`;
+    let query = `INSERT INTO contents SET module='${obj.module}',eng_word='${obj.eng_word}',kiny_word='${obj.kiny_word}',explanation='${obj.explanation}'`;
     return new Promise((resolve, reject) => {
         db.query(query, (err, res) => {
             if (err) reject(err);
@@ -44,7 +44,7 @@ const update = (id,obj) => {
             console.log(errId)
             if (errId) reject(errId);
             if(resId.length>0){
-                let query = `UPDATE contents SET module='${obj.module}',eng_word='${obj.eng_word}',kiny_word='${obj.kiny_word}' WHERE id='${id}'`;
+                let query = `UPDATE contents SET module='${obj.module}',eng_word='${obj.eng_word}',kiny_word='${obj.kiny_word}',explanation='${obj.explanation}' WHERE id='${id}'`;
                 db.query(query, (err, res) => {
                     if(err) reject(res)
                     resolve({status:true,message:"Module content updated successfully"});

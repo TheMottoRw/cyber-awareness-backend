@@ -1,7 +1,7 @@
 import db from "../db"
 
 const save = (obj) => {
-    let query = `INSERT INTO levels SET name='${obj.name}'`;
+    let query = `INSERT INTO levels SET icon='${obj.icon}',name='${obj.name}'`;
     return new Promise((resolve, reject) => {
         db.query(query, (err, res) => {
             if (err) reject(err);

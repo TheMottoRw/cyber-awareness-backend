@@ -3,6 +3,8 @@ import userRouter from "./routes/usersRoutes";
 import levelRouter from "./routes/levelsRoutes";
 import moduleRouter from "./routes/modulesRoutes";
 import contentRouter from "./routes/contentsRoute";
+import moduleEnrolledRouter from "./routes/modulesEnrolledRoutes";
+import contentCompletedRouter from "./routes/contentCompletedRoutes";
 import bodyParser from "body-parser";
 import utils from "./helper/utils";
 import fs from "fs";
@@ -22,6 +24,8 @@ app.use(userRouter)
 app.use(levelRouter)
 app.use(moduleRouter)
 app.use(contentRouter)
+app.use(moduleEnrolledRouter)
+app.use(contentCompletedRouter)
 app.use("/images",express.static("src/uploads"))
 
 const PORT = process.env.PORT || 3000;
