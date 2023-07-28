@@ -1,7 +1,25 @@
 import db from "../db"
+import {resolve} from "@babel/core/lib/vendor/import-meta-resolve";
 
 const save = (obj) => {
     let query = `INSERT INTO contents SET module='${obj.module}',eng_word='${obj.eng_word}',kiny_word='${obj.kiny_word}',explanation='${obj.explanation}'`;
+    return new Promise((resolve, reject) => {
+        db.query(query, (err, res) => {
+            if (err) reject(err);
+            resolve({status:true,message:"Module content created successfully"});
+        })
+    })
+}
+const upload = (module,arr) => {
+    let query = ""
+    if(arr.length==2){
+        query = `INSERT INTO contents SET module='${module}',eng_word='${arr[0]}',kiny_word='${arr[1]}',explanation=''`;
+    }else if(arr.length===3){
+        query = `INSERT INTO contents SET module='${module}',eng_word='${arr[0]}',kiny_word='${arr[1]}',explanation='${arr[2]}'`;
+
+    }else{
+        return resolve({status:false,message:"Invalid csv format"});
+    }
     return new Promise((resolve, reject) => {
         db.query(query, (err, res) => {
             if (err) reject(err);
@@ -37,6 +55,16 @@ const loadByModule = (module = 0) => {
         })
     })
 }
+
+const loadByUser = (obj) => {
+    let queryLevel = `select c.*,(case when cc.id!=0 then "done" else "not_done" end) as is_done,c.module, cc.learner from contents c left join content_completed cc on cc.content = c.id and cc.learner='${obj.learner}' where c.module='${obj.moduleId}'`;
+    return new Promise((resolve, reject) => {
+        db.query(queryLevel, (err, res) => {
+            if (err) reject(err);
+            resolve(res);
+        })
+    })
+}
 const update = (id,obj) => {
     let queryId = `SELECT * FROM contents WHERE id='${id}'`;
     return new Promise((resolve, reject) => {
@@ -59,5 +87,7 @@ export default {
     save,
     load,
     loadByModule,
-    update
+    loadByUser,
+    update,
+    upload
 }

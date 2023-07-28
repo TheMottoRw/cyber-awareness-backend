@@ -3,6 +3,10 @@ import modules from "../controllers/modules";
 import * as fs from "fs";
 import utils from "../helper/utils";
 import filesManagement from "../middleware/filesManagementMiddleware.js";
+import {parse} from "csv";
+import userRouter from "./usersRoutes";
+import modulesEnrolled from "../controllers/modulesEnrolled";
+import moduleEnrolledRouter from "./modulesEnrolledRoutes";
 const moduleRouter = express.Router();
 
 moduleRouter.post("/module",async (req,res)=>{
@@ -25,18 +29,14 @@ moduleRouter.get("/module/level/:level",async (req,res)=>{
     const response = await modules.loadByLevel(req.params.level);
     res.send(response);
 })
+moduleRouter.get("/modules/user/stats",async (req,res)=>{
+    console.log(req.query)
+    const response = await modules.loadByUser(req.query.learner);
+    res.send(response);
+})
 moduleRouter.post("/module/:id",async (req,res)=>{
     console.log(req.params.id)
     const response = await modules.update(req.params.id,req.body);
     res.send(response);
 })
-
-moduleRouter.post('/upload',
-    async (req, res) => {
-        fs.writeFileSync("src/uploads/icon",atob(req.body['icon']),'binary')
-        res.json({status:true,message:"Uploaded successful"})
-        // await filesManagement.uploadFiles(req, res)
-    }
-
-)
 export default moduleRouter;

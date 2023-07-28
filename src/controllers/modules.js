@@ -37,6 +37,16 @@ const loadByLevel = (level = 0) => {
             })
     })
 }
+
+const loadByUser = (learner = 0) => {
+    let queryLevel = `select m.*,(case when me.id!=0 then "enrolled" else "not_enrolled" end) as is_enrolled,me.learner from modules m left join module_enrolled me on me.module = m.id and me.learner='${learner}'`;
+    return new Promise((resolve, reject) => {
+        db.query(queryLevel, (err, res) => {
+            if (err) reject(err);
+            resolve(res);
+        })
+    })
+}
 const update = (id,obj) => {
     let queryId = `SELECT * FROM modules WHERE id='${id}'`;
     return new Promise((resolve, reject) => {
@@ -59,5 +69,6 @@ export default {
     save,
     load,
     loadByLevel,
+    loadByUser,
     update
 }
