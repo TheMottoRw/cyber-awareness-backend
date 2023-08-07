@@ -11,6 +11,8 @@ import fs from "fs";
 import modules from "./controllers/modules";
 import filesManagementMiddleware from "./middleware/filesManagementMiddleware";
 import multer from "multer";
+import quizRouter from "./routes/quizesRoutes";
+import statRouter from "./routes/statRouter";
 const app = express();
 
 app.use(json())
@@ -26,6 +28,8 @@ app.use(moduleRouter)
 app.use(contentRouter)
 app.use(moduleEnrolledRouter)
 app.use(contentCompletedRouter)
+app.use(quizRouter)
+app.use(statRouter)
 app.use("/images",express.static("src/uploads"))
 
 const PORT = process.env.PORT || 3000;

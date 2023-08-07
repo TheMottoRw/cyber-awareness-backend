@@ -39,7 +39,7 @@ const loadByLevel = (level = 0) => {
 }
 
 const loadByUser = (learner = 0) => {
-    let queryLevel = `select m.*,(case when me.id!=0 then "enrolled" else "not_enrolled" end) as is_enrolled,me.learner from modules m left join module_enrolled me on me.module = m.id and me.learner='${learner}'`;
+    let queryLevel = `select m.*,me.marks,me.marks_total,me.is_completed,(case when me.id!=0 then "enrolled" else "not_enrolled" end) as is_enrolled,me.learner from modules m left join module_enrolled me on me.module = m.id and me.learner='${learner}'`;
     return new Promise((resolve, reject) => {
         db.query(queryLevel, (err, res) => {
             if (err) reject(err);

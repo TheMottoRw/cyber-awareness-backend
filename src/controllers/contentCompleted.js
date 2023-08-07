@@ -46,6 +46,16 @@ const loadByModule = (module = 0) => {
     })
 }
 
+const loadByModuleAndLearner = (module = 0,learner=0) => {
+    let queryLevel = `select * from content_completed where module='${module}' AND learner='${learner}'`;
+    return new Promise((resolve, reject) => {
+        db.query(queryLevel, (err, res) => {
+            if (err) resolve(err);
+            resolve(res);
+        })
+    })
+}
+
 const loadByContent = (content = 0) => {
     let queryLevel = `select * from content_completed where content=${content}`;
     return new Promise((resolve, reject) => {
@@ -60,5 +70,6 @@ export default {
     save,
     load,
     loadByModule,
-    loadByContent
+    loadByContent,
+    loadByModuleAndLearner
 }

@@ -46,9 +46,40 @@ const loadByModule = (module = 0) => {
         })
     })
 }
+const loadByModuleCompleted = (learner = 0) => {
+    let queryLevel = `select me.marks,me.marks_total,me.is_completed,m.*,"enrolled" as is_enrolled from module_enrolled me INNER JOIN modules m ON m.id=me.module where learner=${learner} AND is_completed=true`;
+    return new Promise((resolve, reject) => {
+        db.query(queryLevel, (err, res) => {
+            if (err) reject(err);
+            resolve(res);
+        })
+    })
+}
+
+const loadByModuleEnrolled = (learner = 0) => {
+    let queryLevel = `select me.marks,me.marks_total,m.* from module_enrolled me INNER JOIN modules m ON m.id=me.module where learner=${learner}`;
+    return new Promise((resolve, reject) => {
+        db.query(queryLevel, (err, res) => {
+            if (err) reject(err);
+            resolve(res);
+        })
+    })
+}
+const hasDoneModule = (module,learner = 0) => {
+    let queryLevel = `select * from module_enrolled me where me.is_completed=true and me.module=${module} and me.learner=${learner}`;
+    return new Promise((resolve, reject) => {
+        db.query(queryLevel, (err, res) => {
+            if (err) reject(err);
+            resolve(res);
+        })
+    })
+}
 
 export default {
     save,
     load,
-    loadByModule
+    loadByModule,
+    loadByModuleCompleted,
+    loadByModuleEnrolled,
+    hasDoneModule
 }
