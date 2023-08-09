@@ -34,7 +34,7 @@ const update = (id,obj) => {
             console.log(errId)
             if (errId) reject(errId);
             if(resId.length>0){
-                let query = `UPDATE levels SET name='${obj.name}' WHERE id='${id}'`;
+                let query = `UPDATE levels SET icon='${obj.icon}',name='${obj.name}' WHERE id='${id}'`;
                 db.query(query, (err, res) => {
                     if(err) reject(res)
                     resolve({status:true,message:"Level updated successfully"});

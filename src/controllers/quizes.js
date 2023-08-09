@@ -11,6 +11,7 @@ const save = (obj) => {
     })
 }
 
+
 const load = (id = 0) => {
     let query = "select * from quizes";
     let queryId = `select * from quizes where id=${id}`;
@@ -57,17 +58,23 @@ const update = (id, obj) => {
 
 const submission = async (obj) => {
     let totalMarks = 0;
+    let isCompleted = true;
     let quizMarks = await calculateMarks(obj.data);
-    console.log(`Found:${quizMarks}`)
+    console.log(`Right answers marks:${quizMarks}`)
     let queryTotalMarksCalculation = `select (count(id)*10) as total_marks from quizes where module=${obj.module} group by module`;
     return new Promise((resolve, reject) => {
         db.query(queryTotalMarksCalculation, (err, res) => {
-            if (err) reject(err);
+            if (err) console.log(err);
             if(res.length>0)
                 totalMarks = res[0].total_marks
+            console.log(`Total Marks: ${totalMarks}`)
             //update module enrolled with quiz marks
-            let queryMe = `update module_enrolled set marks='${quizMarks}',marks_total='${totalMarks}',is_completed=true where learner='${obj.learner}' and module='${obj.module}'`;
+            if(parseInt(quizMarks)<=(totalMarks/2)){
+                isCompleted = false;
+            }
+            let queryMe = `update module_enrolled set marks='${quizMarks}',marks_total='${totalMarks}',is_completed=${isCompleted} where learner='${obj.learner}' and module='${obj.module}'`;
             db.query(queryMe,(err_me,res_me)=>{
+                console.log(queryMe);
                 if(err_me) resolve({status:false,message:"Something went wrong",error:err_me});
                 resolve({status:true,message:"Successfully saved",marks:quizMarks,total_marks:totalMarks});
             })
@@ -76,6 +83,20 @@ const submission = async (obj) => {
 }
 
 
+const upload = (module,arr) => {
+    let query = ""
+    if(arr.length==3){
+        query = `INSERT INTO quizes SET module='${module}',question='${arr[0]}',answer='${arr[1]}',options='${arr[2]}'`;
+    }else{
+        return resolve({status:false,message:"Invalid csv format"});
+    }
+    return new Promise((resolve, reject) => {
+        db.query(query, (err, res) => {
+            if (err) reject(err);
+            resolve({status:true,message:"Quiz created successfully"});
+        })
+    })
+}
 const calculateMarks = async (obj) => {
     let answersKeyValArr = Object.entries(obj);
     let qy = "select * from quizes where ";
@@ -100,5 +121,6 @@ export default {
     load,
     loadByModule,
     update,
-    submission
+    submission,
+    upload
 }

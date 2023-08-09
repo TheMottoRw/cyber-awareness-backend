@@ -18,7 +18,6 @@ const hasDoneModule = async (module=0,learner=0) => {
     const enrolled = await modulesEnrolled.hasDoneModule(module,learner);
     return {has_done_module:enrolled.length>0};
 }
-
 export default {
     contentProgress,
     moduleCompleted,

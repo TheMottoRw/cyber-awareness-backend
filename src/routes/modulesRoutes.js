@@ -7,36 +7,53 @@ import {parse} from "csv";
 import userRouter from "./usersRoutes";
 import modulesEnrolled from "../controllers/modulesEnrolled";
 import moduleEnrolledRouter from "./modulesEnrolledRoutes";
+
 const moduleRouter = express.Router();
 
-moduleRouter.post("/module",async (req,res)=>{
+moduleRouter.post("/module", async (req, res) => {
     const fileName = utils.generateRandomChars();
     const filePath = `src/uploads/${fileName}`;
-    fs.writeFileSync(filePath,atob(req.body['icon']),'binary')
-    const response = await modules.save({icon:fileName,level:req.body.level,name:req.body.name});
+    fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
+    const response = await modules.save({icon: fileName, level: req.body.level, name: req.body.name});
     res.send(response);
 })
 
-moduleRouter.get("/modules",async (req,res)=>{
+moduleRouter.get("/modules", async (req, res) => {
     const response = await modules.load();
     res.send(response);
 })
-moduleRouter.get("/module/:id",async (req,res)=>{
+moduleRouter.get("/module/:id", async (req, res) => {
     const response = await modules.load(req.params.id);
     res.send(response);
 })
-moduleRouter.get("/module/level/:level",async (req,res)=>{
+moduleRouter.get("/module/level/:level", async (req, res) => {
     const response = await modules.loadByLevel(req.params.level);
     res.send(response);
 })
-moduleRouter.get("/modules/user/stats",async (req,res)=>{
+moduleRouter.get("/modules/user/stats", async (req, res) => {
     console.log(req.query)
     const response = await modules.loadByUser(req.query.learner);
     res.send(response);
 })
-moduleRouter.post("/module/:id",async (req,res)=>{
+moduleRouter.post("/module/id", async (req, res) => {
     console.log(req.params.id)
-    const response = await modules.update(req.params.id,req.body);
+    const response = await modules.update(req.params.id, req.body);
     res.send(response);
 })
+moduleRouter.post("/module/:id", async (req, res) => {
+    const fileName = utils.generateRandomChars();
+    let filePath = "";
+    if (req.body.prev_icon.substring(0, 4) !== "http") {
+        filePath = `src/uploads/${req.body.prev_icon}`;
+        fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
+        fs.renameSync(filePath, `src/uploads/${fileName}`);
+    } else {
+        filePath = `src/uploads/${fileName}`;
+        fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
+
+    }
+    const response = await modules.update(req.params.id, {icon: fileName, level: req.body.level, name: req.body.name});
+    res.send(response);
+})
+
 export default moduleRouter;
