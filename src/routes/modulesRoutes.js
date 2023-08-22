@@ -11,10 +11,15 @@ import moduleEnrolledRouter from "./modulesEnrolledRoutes";
 const moduleRouter = express.Router();
 
 moduleRouter.post("/module", async (req, res) => {
-    const fileName = utils.generateRandomChars();
-    const filePath = `src/uploads/${fileName}`;
-    fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
-    const response = await modules.save({icon: fileName, level: req.body.level, name: req.body.name});
+    let response = {};
+    if(req.body.icon!=='') {
+        const fileName = utils.generateRandomChars();
+        const filePath = `src/uploads/${fileName}`;
+        fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
+        response = await modules.save({icon: fileName, level: req.body.level, name: req.body.name});
+    }else{
+        response = {status:false,message:"Ishusho y'ibyigwa ntabwo yatanzwe"};
+    }
     res.send(response);
 })
 
@@ -41,18 +46,27 @@ moduleRouter.post("/module/id", async (req, res) => {
     res.send(response);
 })
 moduleRouter.post("/module/:id", async (req, res) => {
+    let response = {};
     const fileName = utils.generateRandomChars();
     let filePath = "";
-    if (req.body.prev_icon.substring(0, 4) !== "http") {
-        filePath = `src/uploads/${req.body.prev_icon}`;
-        fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
-        fs.renameSync(filePath, `src/uploads/${fileName}`);
-    } else {
-        filePath = `src/uploads/${fileName}`;
-        fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
-
+    if(req.body['icon']!=='') {
+        if (req.body.prev_icon.substring(0, 4) !== "http" || req.body.prev_icon === "") {
+            filePath = `src/uploads/${fileName}`;
+            fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
+            fs.renameSync(filePath, `src/uploads/${fileName}`);
+        } else {
+            filePath = `src/uploads/${fileName}`;
+            fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
+        }
+        response = await modules.update(req.params.id, {
+            icon: fileName,
+            level: req.body.level,
+            name: req.body.name
+        });
+    }else{
+        response = await modules.update(req.params.id, {icon: req.body.prev_icon, level: req.body.level, name: req.body.name});
     }
-    const response = await modules.update(req.params.id, {icon: fileName, level: req.body.level, name: req.body.name});
+
     res.send(response);
 })
 

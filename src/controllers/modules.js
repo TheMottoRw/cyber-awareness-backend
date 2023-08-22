@@ -1,17 +1,37 @@
 import db from "../db"
 
+const validateInput = (obj, resolve) => {
+    console.log(obj)
+    let isValid = true;
+    if (obj.hasOwnProperty("icon") === undefined || obj.hasOwnProperty("level")===undefined || obj.hasOwnProperty("name") === undefined) {
+        resolve({status: false, message: "Amakuru yose yuzuzwa ntabwo yuzuye"});
+        isValid = false;
+    }
+    if (obj.name === "") {
+        resolve({status: false, message: "Izina ry'isomo ntabwo ryatanzwe"});
+        isValid = false;
+    }
+    return isValid;
+}
+
 const save = (obj) => {
-    let query = `INSERT INTO modules SET icon='${obj.icon}',level='${obj.level}',name='${obj.name}'`;
+    let query = `INSERT INTO modules SET icon=?,level=?,name=?`;
     return new Promise((resolve, reject) => {
-        db.query(query, (err, res) => {
-            if (err) reject(err);
-            resolve({status:true,message:"Module created successfully"});
-        })
+        if (validateInput(obj, resolve)) {
+            if (obj.icon !== "") {
+                db.query(query, [obj.icon, obj.level, obj.name], (err, res) => {
+                    if (err) reject(err);
+                    resolve({status: true, message: "Ibyo kwiga bishya birabitswe neza"});
+                })
+            } else {
+                resolve({status: false, message: "Ishusho yibyo kwiga ntiyatanzwe"});
+            }
+        }
     })
 }
 
 const load = (id = 0) => {
-    let query = "select * from modules";
+    let query = 'select *,false as is_completed,"not_enrolled" as is_enrolled from modules';
     let queryId = `select * from modules where id=${id}`;
     return new Promise((resolve, reject) => {
         if (id === 0) {
@@ -32,9 +52,9 @@ const loadByLevel = (level = 0) => {
     let queryLevel = `select * from modules where level=${level}`;
     return new Promise((resolve, reject) => {
         db.query(queryLevel, (err, res) => {
-                if (err) reject(err);
-                resolve(res);
-            })
+            if (err) reject(err);
+            resolve(res);
+        })
     })
 }
 
@@ -47,21 +67,23 @@ const loadByUser = (learner = 0) => {
         })
     })
 }
-const update = (id,obj) => {
+const update = (id, obj) => {
     let queryId = `SELECT * FROM modules WHERE id='${id}'`;
     return new Promise((resolve, reject) => {
+        if(validateInput(obj,resolve)){
         db.query(queryId, (errId, resId) => {
             console.log(errId)
             if (errId) reject(errId);
-            if(resId.length>0){
-                let query = `UPDATE modules SET icon='${obj.icon}',level='${obj.level}',name='${obj.name}' WHERE id='${id}'`;
-                db.query(query, (err, res) => {
-                    if(err) reject(res)
-                    resolve({status:true,message:"Module updated successfully"});
+            if (resId.length > 0) {
+                let query = `UPDATE modules SET icon=?,level=?,name=? WHERE id=?`;
+                db.query(query,[obj.icon, obj.level, obj.name,id], (err, res) => {
+                    if (err) reject(res)
+                    resolve({status: true, message: "Ibyo kwiga birahinduwe neza"});
                 })
-            }else
-                resolve({status:false,message:"Can not find level"});
+            } else
+                resolve({status: false, message: "Ntibikunze kubona ibyo kwiga"});
         })
+        }
     })
 }
 

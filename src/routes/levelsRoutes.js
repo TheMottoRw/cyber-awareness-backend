@@ -6,10 +6,16 @@ import fs from "fs";
 const levelRouter = express.Router();
 
 levelRouter.post("/level", async (req, res) => {
-    const fileName = utils.generateRandomChars();
-    const filePath = `src/uploads/${fileName}`;
-    fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
-    const response = await levels.save({icon: fileName, name: req.body['name']});
+    let response = {}
+    if (req.body['icon'] !== '') {
+        const fileName = utils.generateRandomChars();
+        const filePath = `src/uploads/${fileName}`;
+        fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
+        response = await levels.save({icon: fileName, name: req.body['name']});
+    } else {
+        response = {status: false, message:"Ishusho y'ikiciro cyo kwiga ntiyatanzwe"};
+    }
+
     res.send(response);
 })
 
@@ -28,18 +34,23 @@ levelRouter.get("/level/type", async (req, res) => {
 levelRouter.post("/level/:id", async (req, res) => {
     const fileName = utils.generateRandomChars();
     let filePath = "";
+    let response = "";
     console.log(req.body.prev_icon)
     console.log(fileName)
-    if (req.body.prev_icon.substring(0, 4) !== "http") {
-        filePath = `src/uploads/${req.body.prev_icon}`;
-        fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
-        fs.renameSync(filePath, `src/uploads/${fileName}`);
-    } else {
-        filePath = `src/uploads/${fileName}`;
-        fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
+    if (req.body['icon'] !== '') {
+        if (req.body.prev_icon.substring(0, 4) !== "http") {
+            filePath = `src/uploads/${req.body.prev_icon}`;
+            fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
+            fs.renameSync(filePath, `src/uploads/${fileName}`);
+        } else {
+            filePath = `src/uploads/${fileName}`;
+            fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
 
+        }
+        response = await levels.update(req.params.id, {icon: fileName, name: req.body['name']});
+    } else {
+        response = await levels.update(req.params.id, {icon: req.body.prev_icon, name: req.body['name']});
     }
-    const response = await levels.update(req.params.id, {icon: fileName, name: req.body['name']});
     res.send(response);
 })
 export default levelRouter;

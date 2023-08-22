@@ -1,12 +1,37 @@
 import db from "../db"
+import validators from "../helper/validators";
 
+const validateInput = (obj, resolve) => {
+    let isValid = true;
+    if (obj.hasOwnProperty("name") === undefined || obj.hasOwnProperty("email") === undefined) {
+        resolve({status: false, message: "All fields are required"});
+        isValid = false;
+    }
+    if (obj.name === "" || obj.email === "") {
+        resolve({status: false, message: "All fields are required"});
+        isValid = false;
+    }
+    const emailValidation = validators.validateEmailAddress(obj.email.trim());
+    if (!emailValidation.status) {
+        emailValidation.message = "Imeli washyizemo ntabwo ariyo";
+        resolve(emailValidation)
+        isValid = false;
+    }
+    return isValid;
+}
 const save = (obj) => {
     let query = `INSERT INTO users SET name='${obj.name}',email='${obj.email}',user_type='${obj.user_type}',password='${obj.password}'`;
     return new Promise((resolve, reject) => {
-        db.query(query, (err, res) => {
-            if (err) reject(err);
-            resolve({status: true, message: "User account created successfully"});
-        })
+        if (validateInput(obj, resolve)) {
+            if (obj.password === undefined || obj.password === "") resolve({
+                status: false,
+                message: "Password should not be empty"
+            })
+            db.query(query, (err, res) => {
+                if (err) reject(err);
+                resolve({status: true, message: "User account created successfully"});
+            })
+        }
     })
 }
 
@@ -39,18 +64,20 @@ const loadByType = (userType = "") => {
 const update = (id, obj) => {
     let queryId = `SELECT * FROM users WHERE id='${id}'`;
     return new Promise((resolve, reject) => {
-        db.query(queryId, (errId, resId) => {
-            console.log(errId)
-            if (errId) reject(errId);
-            if (resId.length > 0) {
-                let query = `UPDATE users SET name='${obj.name}',email='${obj.email}' WHERE id='${id}'`;
-                db.query(query, (err, res) => {
-                    if (err) reject(res)
-                    resolve({status: true, message: "User updated successfully"});
-                })
-            } else
-                resolve({status: false, message: "Can not find user"});
-        })
+        if (validateInput(obj, resolve)) {
+            db.query(queryId, (errId, resId) => {
+                console.log(errId)
+                if (errId) reject(errId);
+                if (resId.length > 0) {
+                    let query = `UPDATE users SET name='${obj.name}',email='${obj.email}' WHERE id='${id}'`;
+                    db.query(query, (err, res) => {
+                        if (err) reject(res)
+                        resolve({status: true, message: "User updated successfully"});
+                    })
+                } else
+                    resolve({status: false, message: "Can not find user"});
+            })
+        }
     })
 }
 const login = (obj) => {
