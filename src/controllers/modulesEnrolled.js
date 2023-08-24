@@ -65,6 +65,16 @@ const loadByModuleEnrolled = (learner = 0) => {
         })
     })
 }
+
+const loadByModuleEnrolledNotCompleted = (learner = 0) => {
+    let queryLevel = `select me.marks,me.marks_total,me.is_completed,m.*,"enrolled" as is_enrolled from module_enrolled me INNER JOIN modules m ON m.id=me.module where learner=${learner} AND is_completed=false`;
+    return new Promise((resolve, reject) => {
+        db.query(queryLevel, (err, res) => {
+            if (err) reject(err);
+            resolve(res);
+        })
+    })
+}
 const hasDoneModule = (module,learner = 0) => {
     let queryLevel = `select * from module_enrolled me where me.is_completed=true and me.module=${module} and me.learner=${learner}`;
     return new Promise((resolve, reject) => {
@@ -81,5 +91,6 @@ export default {
     loadByModule,
     loadByModuleCompleted,
     loadByModuleEnrolled,
+    loadByModuleEnrolledNotCompleted,
     hasDoneModule
 }

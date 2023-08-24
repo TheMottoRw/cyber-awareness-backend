@@ -53,7 +53,7 @@ const load = (id = 0) => {
     })
 }
 const loadByType = (userType = "") => {
-    let queryType = `select * from users where user_type=${userType}`;
+    let queryType = `select * from users where user_type='${userType}'`;
     return new Promise((resolve, reject) => {
         db.query(queryType, (err, res) => {
             if (err) reject(err);

@@ -16,5 +16,9 @@ statRouter.get("/stats/hascompleted",async (req,res)=>{
     res.send(await stats.hasDoneModule(req.query.module,req.query.learner));
 })
 
+statRouter.get("/stats/report",async (req,res)=>{
+    res.send(await stats.report());
+})
+
 
 export default statRouter;
