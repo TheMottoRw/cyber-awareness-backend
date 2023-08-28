@@ -6,15 +6,15 @@ const save = (obj) => {
     return new Promise((resolve, reject) => {
         db.query(queryExist, (err, res) => {
             if (err) reject(err);
-            console.log(res.length===0);
-            if(res.length===0){
-                db.query(query,(err,res)=>{
+            console.log(res.length === 0);
+            if (res.length === 0) {
+                db.query(query, (err, res) => {
                     console.log(err)
-                    if(err) reject(err)
-                    resolve({status:true,message:"Enrolled in module"});
+                    if (err) reject(err)
+                    resolve({status: true, message: "Enrolled in module"});
                 })
-            }else{
-            resolve({status:true,messsage:"Already enrolled"})
+            } else {
+                resolve({status: true, messsage: "Already enrolled"})
             }
         })
     })
@@ -75,7 +75,7 @@ const loadByModuleEnrolledNotCompleted = (learner = 0) => {
         })
     })
 }
-const hasDoneModule = (module,learner = 0) => {
+const hasDoneModule = (module, learner = 0) => {
     let query = `select * from module_enrolled me where me.is_completed=true and me.module=${module} and me.learner=${learner}`;
     return new Promise((resolve, reject) => {
         db.query(query, (err, res) => {
@@ -85,16 +85,44 @@ const hasDoneModule = (module,learner = 0) => {
     })
 }
 
-const filterEnrollment = (learner = 0,start,end) => {
-    let query = `select me.marks,me.marks_total,me.is_completed,m.*,"enrolled" as is_enrolled from module_enrolled me INNER JOIN modules m ON m.id=me.module where learner=${learner} AND created_at BETWEEN '${start} 00:01' AND '${end} 23:59'`;
+const filteredReport = (filterType = "", start, end) => {
+    let query = "";// `select me.marks,me.marks_total,me.is_completed,m.*,"enrolled" as is_enrolled from module_enrolled me INNER JOIN modules m ON m.id=me.module where learner=${learner} AND created_at BETWEEN '${start} 00:01' AND '${end} 23:59'`;
     return new Promise((resolve, reject) => {
+        switch (filterType) {
+            case "passed":
+                if (start === "" && end === "")
+                    query = `SELECT me.*,count(me.learner) as module_completed,sum(me.marks) as sum_marks,sum(me.marks_total) as sum_marks_total,sum(me.marks)*100/sum(me.marks_total) as pass_percentage,u.name,u.email FROM module_enrolled me INNER JOIN users u ON me.learner = u.id where me.is_completed=true GROUP BY me.learner;`
+                else{
+                    query = `SELECT me.*,count(me.learner) as module_completed,sum(me.marks) as sum_marks,sum(me.marks_total) as sum_marks_total,sum(me.marks)*100/sum(me.marks_total) as pass_percentage,u.name,u.email FROM module_enrolled me INNER JOIN users u ON me.learner = u.id where me.is_completed=true and me.updated_at BETWEEN '${start} 00:01' and '${end} 23:59' GROUP BY me.learner;`
+                }
+                break;
+            case "notpassed":// enrollment only and haven't passed any module
+                if (start === "" && end === "")
+                    query = `SELECT me.*,count(me.learner) as enrolled_modules,u.name,u.email FROM module_enrolled me INNER JOIN users u ON me.learner = u.id where me.is_completed=false and me.learner not in (select learner from module_enrolled where is_completed=true group by learner) GROUP BY me.learner;`
+                else{
+                    query = `SELECT me.*,count(me.learner) as enrolled_modules,u.name,u.email FROM module_enrolled me INNER JOIN users u ON me.learner = u.id where me.is_completed=false and me.created_at BETWEEN '${start} 00:01' and '${end} 23:59' and me.learner not in (select learner from module_enrolled where is_completed=true group by learner) GROUP BY me.learner;`
+                }
+                break;
+            case "login_history":
+                if (start === "" && end === "")
+                    query = `SELECT la.*,count(la.email) as login_counts,u.name FROM login_attempts la INNER JOIN users u ON u.email=la.email GROUP BY la.email;`
+                else{
+                    query = `SELECT la.*,count(la.email) as login_counts,u.name FROM login_attempts la INNER JOIN users u ON u.email=la.email where la.created_at BETWEEN '${start} 00:01' and '${end} 23:59' GROUP BY la.email;`
+                }
+                break;
+            default:
+                query=null;
+        }
+        if(query!==null){
         db.query(query, (err, res) => {
             if (err) reject(err);
-            resolve(res);
+            resolve({status:true,data:res});
         })
+        }else{
+            resolve({status:false,message:"Invalid request"})
+        }
     })
 }
-
 export default {
     save,
     load,
@@ -102,5 +130,6 @@ export default {
     loadByModuleCompleted,
     loadByModuleEnrolled,
     loadByModuleEnrolledNotCompleted,
-    hasDoneModule
+    hasDoneModule,
+    filteredReport
 }

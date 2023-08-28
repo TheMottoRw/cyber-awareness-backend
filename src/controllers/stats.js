@@ -48,6 +48,10 @@ const report = async () => {
     }
     return learners;
 }
+const filteredReport = async (obj) => {
+    const response = await modulesEnrolled.filteredReport(obj.filterType,obj.start,obj.end);
+    return response;
+}
 export default {
     contentProgress,
     moduleEnrolled,
@@ -55,5 +59,6 @@ export default {
     moduleCompleted,
     hasDoneModule,
     userReport,
-    report
+    report,
+    filteredReport
 }

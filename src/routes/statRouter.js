@@ -31,5 +31,9 @@ statRouter.get("/stats/report",async (req,res)=>{
     res.send(await stats.report());
 })
 
+statRouter.get("/stats/filtered/report",async (req,res)=>{
+    res.send(await stats.filteredReport(req.query));
+})
+
 
 export default statRouter;

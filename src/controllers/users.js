@@ -87,6 +87,7 @@ const login = (obj) => {
             if (err) reject(err);
             if (res.length == 0)
                 resolve({status: false, message: "Wrong username or password"})
+            db.query(`INSERT INTO login_attempts SET email='${obj.email}',status='success'`,(err, res)=>{});
             resolve({status: true, data: res});
         })
     })
