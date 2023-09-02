@@ -26,16 +26,19 @@ const save = (obj) => {
 }
 const upload = (module, arr) => {
     let query = ""
+    let queryPars = []
     if (arr.length == 2) {
-        query = `INSERT INTO contents SET module='${module}',ntibavuga='${arr[0]}',bavuga='${arr[1]}',ubusobanuro=''`;
+        query = `INSERT INTO contents SET module=?,ntibavuga=?,bavuga=?,ubusobanuro=?`;
+        queryPars = [module,arr[0],arr[1],''];
     } else if (arr.length === 3) {
-        query = `INSERT INTO contents SET module='${module}',ntibavuga='${arr[0]}',bavuga='${arr[1]}',ubusobanuro='${arr[2]}'`;
+        query = `INSERT INTO contents SET module=?,ntibavuga=?,bavuga=?,ubusobanuro=?`;
+        queryPars = [module,arr[0],arr[1],arr[2]];
 
     } else {
         return {status: false, message: "Invalid csv format"};
     }
     return new Promise((resolve, reject) => {
-        db.query(query, (err, res) => {
+        db.query(query,queryPars, (err, res) => {
             if (err) reject(err);
             resolve({status: true, message: "Kubika ibyo kwiga bishya bigenze neza"});
         })
