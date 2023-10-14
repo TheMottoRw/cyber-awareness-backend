@@ -4,11 +4,11 @@ const validateInput = (obj, resolve) => {
     console.log(obj)
     let isValid = true;
     if (obj.hasOwnProperty("icon") === undefined || obj.hasOwnProperty("name") === undefined) {
-        resolve({status: false, message: "Amakuru yose yuzuzwa ntabwo yuzuye"});
+        resolve({status: false, message: "All field are required"});
         isValid = false;
     }
     if (obj.name === "") {
-        resolve({status: false, message: "Izina ry'isomo ntabwo ryatanzwe"});
+        resolve({status: false, message: "Level name is required"});
         isValid = false;
     }
     return isValid;
@@ -20,10 +20,10 @@ const save = (obj) => {
             if (obj.icon !== "") {
                 db.query(query, [obj.icon, obj.name], (err, res) => {
                     if (err) reject(err);
-                    resolve({status: true, message: "Kubika ikiciro cyo kwiga gishya bigenze neza"});
+                    resolve({status: true, message: "Level created successfully"});
                 })
             } else {
-                resolve({status: false, message: "Ishusho y'ikiciro cyo kwiga ntiyatanzwe"});
+                resolve({status: false, message: "Failed to create a new level"});
             }
         }
     })
@@ -57,10 +57,10 @@ const update = (id, obj) => {
                     let query = `UPDATE levels SET icon=?,name=? WHERE id=?`;
                     db.query(query, [obj.icon,obj.name,id],(err, res) => {
                         if (err) reject(res)
-                        resolve({status: true, message: "Ikiciro cyo kwiga kirahinduwe"});
+                        resolve({status: true, message: "Level updated successfully"});
                     })
                 } else
-                    resolve({status: false, message: "Ntibikunze kubona ikiciro"});
+                    resolve({status: false, message: "Failed to update level"});
             })
         }
     })

@@ -9,11 +9,11 @@ const validateInput = (obj, resolve) => {
         isValid = false;
     }
     if (obj.question === "" || obj.answer === "") {
-        resolve({status: false, message: "Uzuza amakuru yose asabwa"});
+        resolve({status: false, message: "All fields are required"});
         isValid = false;
     }
     if (obj.options.split(",").length < 2) {
-        resolve({status: false, message: "Amahitamo agomba kuba arenze amwe"});
+        resolve({status: false, message: "Choices should be more than one"});
         isValid = false;
     }
     return isValid;

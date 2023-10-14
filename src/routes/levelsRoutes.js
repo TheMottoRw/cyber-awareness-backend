@@ -13,7 +13,7 @@ levelRouter.post("/level", async (req, res) => {
         fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
         response = await levels.save({icon: fileName, name: req.body['name']});
     } else {
-        response = {status: false, message:"Ishusho y'ikiciro cyo kwiga ntiyatanzwe"};
+        response = {status: false, message:"Levels icon is required"};
     }
 
     res.send(response);

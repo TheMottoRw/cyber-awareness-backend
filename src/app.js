@@ -15,6 +15,7 @@ import quizRouter from "./routes/quizesRoutes";
 import statRouter from "./routes/statRouter";
 const app = express();
 
+
 app.use(json())
 app.use(bodyParser.urlencoded({
     parameterLimit: 100000,
@@ -32,7 +33,7 @@ app.use(quizRouter)
 app.use(statRouter)
 app.use("/images",express.static("src/uploads"))
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.get('/', async (req, res) => {
     res.json({ status: true, message: "Our node.js app works" })

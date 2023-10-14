@@ -4,7 +4,7 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "super",
     password: "",
-    database: "learningplatform"
+    database: "cyberawareness"
 });
 
 // open the MySQL connection

@@ -18,7 +18,7 @@ moduleRouter.post("/module", async (req, res) => {
         fs.writeFileSync(filePath, atob(req.body['icon']), 'binary')
         response = await modules.save({icon: fileName, level: req.body.level, name: req.body.name});
     }else{
-        response = {status:false,message:"Ishusho y'ibyigwa ntabwo yatanzwe"};
+        response = {status:false,message:"Modules icon is required"};
     }
     res.send(response);
 })

@@ -13,7 +13,7 @@ const validateInput = (obj, resolve) => {
     }
     const emailValidation = validators.validateEmailAddress(obj.email.trim());
     if (!emailValidation.status) {
-        emailValidation.message = "Imeli washyizemo ntabwo ariyo";
+        emailValidation.message = "Invalid email address";
         resolve(emailValidation)
         isValid = false;
     }

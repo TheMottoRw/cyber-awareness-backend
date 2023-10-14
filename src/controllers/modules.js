@@ -4,11 +4,11 @@ const validateInput = (obj, resolve) => {
     console.log(obj)
     let isValid = true;
     if (obj.hasOwnProperty("icon") === undefined || obj.hasOwnProperty("level")===undefined || obj.hasOwnProperty("name") === undefined) {
-        resolve({status: false, message: "Amakuru yose yuzuzwa ntabwo yuzuye"});
+        resolve({status: false, message: "All field are required"});
         isValid = false;
     }
     if (obj.name === "") {
-        resolve({status: false, message: "Izina ry'isomo ntabwo ryatanzwe"});
+        resolve({status: false, message: "Module name is required"});
         isValid = false;
     }
     return isValid;
@@ -21,10 +21,10 @@ const save = (obj) => {
             if (obj.icon !== "") {
                 db.query(query, [obj.icon, obj.level, obj.name], (err, res) => {
                     if (err) reject(err);
-                    resolve({status: true, message: "Ibyo kwiga bishya birabitswe neza"});
+                    resolve({status: true, message: "Module added successfully"});
                 })
             } else {
-                resolve({status: false, message: "Ishusho yibyo kwiga ntiyatanzwe"});
+                resolve({status: false, message: "Failed to create a new module"});
             }
         }
     })
@@ -78,10 +78,10 @@ const update = (id, obj) => {
                 let query = `UPDATE modules SET icon=?,level=?,name=? WHERE id=?`;
                 db.query(query,[obj.icon, obj.level, obj.name,id], (err, res) => {
                     if (err) reject(res)
-                    resolve({status: true, message: "Ibyo kwiga birahinduwe neza"});
+                    resolve({status: true, message: "Module updated successfully"});
                 })
             } else
-                resolve({status: false, message: "Ntibikunze kubona ibyo kwiga"});
+                resolve({status: false, message: "Failed to update module"});
         })
         }
     })
