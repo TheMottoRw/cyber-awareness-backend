@@ -4,23 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b79d27b-7734-4ccb-9360-552f7cd9a5c2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/learning-language-backend.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/contents.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/contents.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/levels.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/levels.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/modules.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/modules.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/quizes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/quizes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/learningplatform.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/learningplatform.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/db.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/levelsRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/levelsRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/modulesRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/modulesRoutes.js" afterDir="false" />
-    </list>
+    <list default="true" id="9b79d27b-7734-4ccb-9360-552f7cd9a5c2" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -102,7 +86,7 @@
       <workItem from="1695397514194" duration="598000" />
       <workItem from="1696236303545" duration="66000" />
       <workItem from="1697040031520" duration="1076000" />
-      <workItem from="1697309262243" duration="761000" />
+      <workItem from="1697309262243" duration="1593000" />
     </task>
     <servers />
   </component>
